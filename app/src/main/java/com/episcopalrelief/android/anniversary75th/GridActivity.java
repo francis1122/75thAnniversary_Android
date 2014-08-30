@@ -25,7 +25,7 @@ public class GridActivity extends Activity {
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 Intent myIntent = new Intent(GridActivity.this, DetailsActivity.class);
-                myIntent.putExtra("key", position);
+                myIntent.putExtra("index", position);
                 GridActivity.this.startActivity(myIntent);
 
 
