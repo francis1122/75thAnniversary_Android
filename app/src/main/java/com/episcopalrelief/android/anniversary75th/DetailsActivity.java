@@ -19,11 +19,13 @@ public class DetailsActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
         Intent intent = getIntent();
-        int value = intent.getIntExtra("index", -1);
+        int value = intent.getIntExtra("index", -1)+1;
         Toast.makeText(DetailsActivity.this, "" + value , Toast.LENGTH_SHORT).show();
 
         imageView = (ImageView) findViewById(R.id.detailsImageButton);
-        imageView.setImageResource(R.drawable.sample_4);
+        int resId = getResources().getIdentifier("full"+value+"a", "drawable", getPackageName());
+        imageView.setImageResource(resId);
+        //imageView.setImageResource(R.drawable.sample_4);
 
     }
 
