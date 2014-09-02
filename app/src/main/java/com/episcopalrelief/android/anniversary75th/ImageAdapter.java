@@ -15,6 +15,8 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 
+import java.util.ArrayList;
+
 /**
  * Created by Hunter on 8/29/14.
  */
@@ -36,9 +38,17 @@ public class ImageAdapter extends BaseAdapter {
             R.drawable.full21a
     };
 
+    private ArrayList<Bitmap> bitmapArray = new ArrayList<Bitmap>();
+
 
     public ImageAdapter(Context c) {
         mContext = c;
+        for(int i = 0; i < mThumbIds.length; i++) {
+            Integer resourceId = mThumbIds[i];
+
+            bitmapArray.add(decodeSampledBitmapFromResource(mContext.getResources(), resourceId, 250, 250));
+
+        }
     }
 
     public int getCount() {
@@ -114,7 +124,7 @@ public class ImageAdapter extends BaseAdapter {
 
         //imageView.setImageResource(mThumbIds[position]);
 
-        imageView.setImageBitmap(decodeSampledBitmapFromResource(mContext.getResources(), mThumbIds[position], 250, 250));
+        imageView.setImageBitmap(bitmapArray.get(position));
         //System.out.println(position);
         return imageView;
     }
