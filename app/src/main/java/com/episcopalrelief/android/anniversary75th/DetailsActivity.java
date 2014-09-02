@@ -25,8 +25,7 @@ public class DetailsActivity extends Activity {
         imageView = (ImageView) findViewById(R.id.detailsImageButton);
         int resId = getResources().getIdentifier("full"+value+"a", "drawable", getPackageName());
         imageView.setImageResource(resId);
-        //imageView.setImageResource(R.drawable.sample_4);
-
+        //imageView.setImageResource(R.drawable.sample_4);j
     }
 
 
