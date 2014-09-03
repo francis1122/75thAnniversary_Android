@@ -1,0 +1,26 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp"
+    android:paddingTop="0dp"
+    android:paddingBottom="0dp"
+    tools:context="com.episcopalrelief.android.anniversary75th.DetailsActivity"
+    android:clickable="false"
+    android:id="@+id/detailsLayout"
+    android:background="#ff000000">
+
+    <ImageView android:id="@+id/detailsImage"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:adjustViewBounds="true"
+        android:scaleType="centerInside"
+        android:cropToPadding="false"
+        android:background="#ff000000" />
+
+
+</RelativeLayout>

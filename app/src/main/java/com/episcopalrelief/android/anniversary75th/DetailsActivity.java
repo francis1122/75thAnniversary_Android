@@ -1,30 +1,57 @@
 package com.episcopalrelief.android.anniversary75th;
 
-import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v13.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.NavUtils;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.Toast;
 
+public class DetailsActivity extends FragmentActivity {
 
-public class DetailsActivity extends Activity {
+//    ImageView imageView;
 
-    ImageView imageView;
+    ViewPager mPager;
+    ScreenSlidePagerAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
-        Intent intent = getIntent();
+        /*Intent intent = getIntent();
         int value = intent.getIntExtra("index", -1)+1;
         Toast.makeText(DetailsActivity.this, "" + value , Toast.LENGTH_SHORT).show();
 
         imageView = (ImageView) findViewById(R.id.detailsImageButton);
         int resId = getResources().getIdentifier("full"+value+"a", "drawable", getPackageName());
         imageView.setImageResource(resId);
+        */
+
+        mAdapter = new ScreenSlidePagerAdapter(getFragmentManager());
+        mPager = (ViewPager)findViewById(R.id.pager);
+        mPager.setAdapter(mAdapter);
+
+
+        /*
+        // Watch for button clicks.
+        Button button = (Button)findViewById(R.id.goto_first);
+        button.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                mPager.setCurrentItem(0);
+            }
+        });
+        button = (Button)findViewById(R.id.goto_last);
+        button.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                mPager.setCurrentItem(20);
+            }
+        });
+        */
         //imageView.setImageResource(R.drawable.sample_4);j
     }
 
@@ -47,4 +74,27 @@ public class DetailsActivity extends Activity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+
+
+    public static class ScreenSlidePagerAdapter extends android.support.v13.app.FragmentStatePagerAdapter {
+        public ScreenSlidePagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public int getCount() {
+            return 5;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return ScreenSlidePageFragment.create(position);
+        }
+
+    }
+
+
+
+
 }
