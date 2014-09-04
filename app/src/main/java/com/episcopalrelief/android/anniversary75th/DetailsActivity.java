@@ -1,7 +1,10 @@
 package com.episcopalrelief.android.anniversary75th;
 
+import android.app.ActivityManager;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -14,6 +17,8 @@ import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import java.util.List;
 
 public class DetailsActivity extends FragmentActivity {
 
@@ -46,7 +51,6 @@ public class DetailsActivity extends FragmentActivity {
         String fileName = "android.resource://" + getPackageName() + "/" + R.raw.audio1;
         try {
             mPlayer.setDataSource(this, Uri.parse(fileName));
-            //mPlayer.setDisplay(_holder); //_holder is SurfaceHolder of SurfaceView
             mPlayer.prepare();
             mPlayer.start();
         }catch (Exception e) {
@@ -91,6 +95,17 @@ public class DetailsActivity extends FragmentActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mPlayer != null){
+            mPlayer.stop();
+            if (isFinishing()){
+                mPlayer.stop();
+            }
+        }
+    }
+
 
 
     public static class ScreenSlidePagerAdapter extends android.support.v13.app.FragmentStatePagerAdapter {
@@ -125,12 +140,28 @@ public class DetailsActivity extends FragmentActivity {
             currentFragment = (ScreenSlidePageFragment) mAdapter.instantiateItem(mPager, position);
 
             currentFragment.handler.postDelayed(currentFragment.runnable, currentFragment.interval);
+
+
+            int resId = getResources().getIdentifier("audio"+(position+1), "raw", getPackageName());
+
+            String fileName = "android.resource://" + getPackageName() + "/" + resId;
+            try {
+                mPlayer.stop();
+                mPlayer.reset();
+                mPlayer.setDataSource(DetailsActivity.this, Uri.parse(fileName));
+                mPlayer.prepare();
+                mPlayer.start();
+            }catch (Exception e) {
+                Toast.makeText(DetailsActivity.this, "ERROR: audio player not working.", Toast.LENGTH_LONG).show();
+            }
+
         }
 
         @Override
         public void onPageScrollStateChanged(int state)
         {
             //System.out.println("onPageScrollStateChanged" + state);
+
         }
 
         @Override
