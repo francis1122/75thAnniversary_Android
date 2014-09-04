@@ -24,19 +24,21 @@ public class ImageAdapter extends BaseAdapter {
     private Context mContext;
 
     // references to our images
-    private Integer[] mThumbIds = {
-            R.drawable.full1a, R.drawable.full2a,
-            R.drawable.full3a, R.drawable.full4a,
-            R.drawable.full5a, R.drawable.full6a,
-            R.drawable.full7a, R.drawable.full8a,
-            R.drawable.full9a, R.drawable.full10a,
-            R.drawable.full11a, R.drawable.full12a,
-            R.drawable.full13a, R.drawable.full14a,
-            R.drawable.full15a, R.drawable.full16a,
-            R.drawable.full17a, R.drawable.full18a,
-            R.drawable.full19a, R.drawable.full20a,
-            R.drawable.full21a
+    private Integer[][] mThumbIds = {
+            {R.drawable.full1a}, {R.drawable.full2a},
+            {R.drawable.full3a, R.drawable.full3b}, {R.drawable.full4a},
+            {R.drawable.full5a}, {R.drawable.full6a},
+            {R.drawable.full7a, R.drawable.full7b, R.drawable.full7c, R.drawable.full7d, R.drawable.full7e}, {R.drawable.full8a},
+            {R.drawable.full9a, R.drawable.full9b, R.drawable.full9d, R.drawable.full9e, R.drawable.full9f, R.drawable.full9g}, {R.drawable.full10a},
+            {R.drawable.full11a}, {R.drawable.full12a},
+            {R.drawable.full13a}, {R.drawable.full14a},
+            {R.drawable.full15a}, {R.drawable.full16a},
+            {R.drawable.full17a}, {R.drawable.full18a},
+            {R.drawable.full19a}, {R.drawable.full20a},
+            {R.drawable.full21a}
     };
+
+
 
     private ArrayList<Bitmap> bitmapArray = new ArrayList<Bitmap>();
 
@@ -44,7 +46,7 @@ public class ImageAdapter extends BaseAdapter {
     public ImageAdapter(Context c) {
         mContext = c;
         for(int i = 0; i < mThumbIds.length; i++) {
-            Integer resourceId = mThumbIds[i];
+            Integer resourceId = mThumbIds[i][0];
 
             bitmapArray.add(decodeSampledBitmapFromResource(mContext.getResources(), resourceId, 250, 250));
 
