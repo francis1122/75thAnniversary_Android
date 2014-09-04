@@ -84,7 +84,7 @@ public class DetailsActivity extends FragmentActivity {
 
         @Override
         public int getCount() {
-            return 5;
+            return 21;
         }
 
         @Override
