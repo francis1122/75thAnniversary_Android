@@ -3,6 +3,8 @@ package com.episcopalrelief.android.anniversary75th;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v13.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentActivity;
@@ -11,6 +13,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class DetailsActivity extends FragmentActivity {
 
@@ -18,6 +21,7 @@ public class DetailsActivity extends FragmentActivity {
 
     ViewPager mPager;
     ScreenSlidePagerAdapter mAdapter;
+    MediaPlayer mPlayer;
     ScreenSlidePageFragment currentFragment = null;
 
     @Override
@@ -34,10 +38,20 @@ public class DetailsActivity extends FragmentActivity {
         */
 
         mAdapter = new ScreenSlidePagerAdapter(getFragmentManager());
-        mPager = (ViewPager)findViewById(R.id.pager);
+        mPager = (ViewPager) findViewById(R.id.pager);
         mPager.setAdapter(mAdapter);
         mPager.setOnPageChangeListener(new DetailsOnPageChangeListener());
 
+        mPlayer = new MediaPlayer();
+        String fileName = "android.resource://" + getPackageName() + "/" + R.raw.audio1;
+        try {
+            mPlayer.setDataSource(this, Uri.parse(fileName));
+            //mPlayer.setDisplay(_holder); //_holder is SurfaceHolder of SurfaceView
+            mPlayer.prepare();
+            mPlayer.start();
+        }catch (Exception e) {
+            Toast.makeText(DetailsActivity.this, "ERROR: audio player not working.", Toast.LENGTH_LONG).show();
+        }
 
         /*
         // Watch for button clicks.
@@ -91,8 +105,10 @@ public class DetailsActivity extends FragmentActivity {
 
         @Override
         public Fragment getItem(int position) {
+
             return ScreenSlidePageFragment.create(position);
         }
+
 
     }
 
@@ -124,5 +140,7 @@ public class DetailsActivity extends FragmentActivity {
         }
 
     }
+
+
 
 }
