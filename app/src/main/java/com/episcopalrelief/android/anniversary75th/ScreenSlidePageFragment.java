@@ -16,13 +16,19 @@
 
 package com.episcopalrelief.android.anniversary75th;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * A fragment representing a single step in a wizard. The fragment shows a dummy title indicating
@@ -35,6 +41,21 @@ public class ScreenSlidePageFragment extends Fragment {
      * The argument key for the page number this fragment represents.
      */
     public static final String ARG_PAGE = "page";
+    public ImageView imageView;
+    public Activity parentActivity;
+    public Handler handler = new Handler();
+    public Runnable runnable = new Runnable(){
+        public void run() {
+            //Toast.makeText(MyActivity.this, "C'Mom no hands!", Toast.LENGTH_SHORT).show();
+            System.out.println("this is a working timer");
+            handler.postDelayed(runnable, interval);
+        }
+    };
+
+    long startTime = 0;
+
+    public final int interval = 1000; // 1 Second
+
 
     /**
      * The fragment's page number, which is set to the argument value for {@link #ARG_PAGE}.
@@ -53,6 +74,7 @@ public class ScreenSlidePageFragment extends Fragment {
     }
 
     public ScreenSlidePageFragment() {
+
     }
 
     @Override
@@ -70,10 +92,16 @@ public class ScreenSlidePageFragment extends Fragment {
 
 
         // Set the title view to show the page number.
-
-        ImageView imageView = (ImageView) rootView.findViewById(R.id.detailsImage);
+        parentActivity = this.getActivity();
+        imageView = (ImageView) rootView.findViewById(R.id.detailsImage);
         int resId = getResources().getIdentifier("full"+(mPageNumber+1) +"a", "drawable", this.getActivity().getPackageName());
         imageView.setImageResource(resId);
+
+        //DO IMAGE ROTATION IF required
+        //handler.postAtTime(runnable, System.currentTimeMillis()+interval);
+        //handler.postDelayed(runnable, interval);
+
+
         return rootView;
     }
 
@@ -83,4 +111,14 @@ public class ScreenSlidePageFragment extends Fragment {
     public int getPageNumber() {
         return mPageNumber;
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        handler.removeCallbacks(runnable);
+        //TODO: stop or handler, w/e
+    }
+
+
+
 }

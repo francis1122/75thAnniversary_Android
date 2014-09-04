@@ -22,6 +22,7 @@ public class DetailsActivity extends FragmentActivity {
     ViewPager mPager;
     ScreenSlidePagerAdapter mAdapter;
     MediaPlayer mPlayer;
+    ScreenSlidePageFragment currentFragment = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +40,7 @@ public class DetailsActivity extends FragmentActivity {
         mAdapter = new ScreenSlidePagerAdapter(getFragmentManager());
         mPager = (ViewPager) findViewById(R.id.pager);
         mPager.setAdapter(mAdapter);
+        mPager.setOnPageChangeListener(new DetailsOnPageChangeListener());
 
         mPlayer = new MediaPlayer();
         String fileName = "android.resource://" + getPackageName() + "/" + R.raw.audio1;
@@ -110,8 +112,34 @@ public class DetailsActivity extends FragmentActivity {
 
     }
 
+    public class DetailsOnPageChangeListener implements ViewPager.OnPageChangeListener {
+        @Override
+        public void onPageSelected(int position)
+        {
+            System.out.println("onPageSelected" + position);
 
+            // mPager
+            if(currentFragment != null) {
+                currentFragment.handler.removeCallbacks(currentFragment.runnable);
+            }
+            currentFragment = (ScreenSlidePageFragment) mAdapter.instantiateItem(mPager, position);
 
+            currentFragment.handler.postDelayed(currentFragment.runnable, currentFragment.interval);
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state)
+        {
+            //System.out.println("onPageScrollStateChanged" + state);
+        }
+
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels)
+        {
+            //System.out.println("onPageScrolled" + position);
+        }
+
+    }
 
 
 
