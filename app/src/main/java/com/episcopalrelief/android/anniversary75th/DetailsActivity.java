@@ -28,6 +28,9 @@ public class DetailsActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
+        Intent intent = getIntent();
+        int value = intent.getIntExtra("index", -1);
+
         /*Intent intent = getIntent();
         int value = intent.getIntExtra("index", -1)+1;
         Toast.makeText(DetailsActivity.this, "" + value , Toast.LENGTH_SHORT).show();
@@ -39,9 +42,10 @@ public class DetailsActivity extends FragmentActivity {
 
         mAdapter = new ScreenSlidePagerAdapter(getFragmentManager());
         mPager = (ViewPager) findViewById(R.id.pager);
+
         mPager.setAdapter(mAdapter);
         mPager.setOnPageChangeListener(new DetailsOnPageChangeListener());
-
+        mPager.setCurrentItem(value);
         mPlayer = new MediaPlayer();
         String fileName = "android.resource://" + getPackageName() + "/" + R.raw.audio1;
         try {
@@ -123,7 +127,7 @@ public class DetailsActivity extends FragmentActivity {
                 currentFragment.handler.removeCallbacks(currentFragment.runnable);
             }
             currentFragment = (ScreenSlidePageFragment) mAdapter.instantiateItem(mPager, position);
-
+            currentFragment.fragmentIndex = position;
             currentFragment.handler.postDelayed(currentFragment.runnable, currentFragment.interval);
         }
 
