@@ -52,14 +52,7 @@ public class DetailsActivity extends FragmentActivity {
         mPager.setOnPageChangeListener(new DetailsOnPageChangeListener());
         mPager.setCurrentItem(value);
         mPlayer = new MediaPlayer();
-        String fileName = "android.resource://" + getPackageName() + "/" + R.raw.audio1;
-        try {
-            mPlayer.setDataSource(this, Uri.parse(fileName));
-            mPlayer.prepare();
-            mPlayer.start();
-        }catch (Exception e) {
-            Toast.makeText(DetailsActivity.this, "ERROR: audio player not working.", Toast.LENGTH_LONG).show();
-        }
+        int resId = getResources().getIdentifier("audio"+(value+1), "raw", getPackageName());
 
         /*
         // Watch for button clicks.
