@@ -53,6 +53,15 @@ public class DetailsActivity extends FragmentActivity {
         mPager.setCurrentItem(value);
         mPlayer = new MediaPlayer();
         int resId = getResources().getIdentifier("audio"+(value+1), "raw", getPackageName());
+        String fileName = "android.resource://" + getPackageName() + "/" + resId;
+        try{
+          mPlayer.setDataSource(DetailsActivity.this, Uri.parse(fileName));
+          mPlayer.prepare();
+          mPlayer.start();
+        }catch (Exception e) {
+            //Toast.makeText(DetailsActivity.this, "ERROR: audio player not working.", Toast.LENGTH_LONG).show();
+            System.out.println("ERROR: audio player not working.");
+        }
 
         /*
         // Watch for button clicks.
@@ -143,13 +152,18 @@ public class DetailsActivity extends FragmentActivity {
 
             String fileName = "android.resource://" + getPackageName() + "/" + resId;
             try {
-                mPlayer.stop();
-                mPlayer.reset();
-                mPlayer.setDataSource(DetailsActivity.this, Uri.parse(fileName));
-                mPlayer.prepare();
-                mPlayer.start();
+                if(mPlayer != null) {
+                    if (mPlayer.isPlaying()) {
+                        mPlayer.stop();
+                        mPlayer.reset();
+                    }
+                    mPlayer.setDataSource(DetailsActivity.this, Uri.parse(fileName));
+                    mPlayer.prepare();
+                    mPlayer.start();
+                }
             }catch (Exception e) {
-                Toast.makeText(DetailsActivity.this, "ERROR: audio player not working.", Toast.LENGTH_LONG).show();
+                //Toast.makeText(DetailsActivity.this, "ERROR: audio player not working.", Toast.LENGTH_LONG).show();
+                System.out.println( "ERROR: audio player not working.");
             }
 
         }
