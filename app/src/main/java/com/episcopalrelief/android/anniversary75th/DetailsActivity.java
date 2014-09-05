@@ -52,16 +52,27 @@ public class DetailsActivity extends FragmentActivity {
         mPager.setOnPageChangeListener(new DetailsOnPageChangeListener());
         mPager.setCurrentItem(value);
         mPlayer = new MediaPlayer();
+
+
+
+
         int resId = getResources().getIdentifier("audio"+(value+1), "raw", getPackageName());
         String fileName = "android.resource://" + getPackageName() + "/" + resId;
         try{
           mPlayer.setDataSource(DetailsActivity.this, Uri.parse(fileName));
-          mPlayer.prepare();
-          mPlayer.start();
         }catch (Exception e) {
             //Toast.makeText(DetailsActivity.this, "ERROR: audio player not working.", Toast.LENGTH_LONG).show();
             System.out.println("ERROR: audio player not working.");
         }
+        mPlayer.prepareAsync();
+        mPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            public void onPrepared(MediaPlayer mp) {
+                mp.start();
+            }
+        });
+
+        mPlayer.start();
+
 
         /*
         // Watch for button clicks.
@@ -135,38 +146,51 @@ public class DetailsActivity extends FragmentActivity {
 
     public class DetailsOnPageChangeListener implements ViewPager.OnPageChangeListener {
         @Override
-        public void onPageSelected(int position)
-        {
+        public void onPageSelected(int position) {
             System.out.println("onPageSelected" + position);
 
             // mPager
-            if(currentFragment != null) {
+            if (currentFragment != null) {
                 currentFragment.handler.removeCallbacks(currentFragment.runnable);
             }
             currentFragment = (ScreenSlidePageFragment) mAdapter.instantiateItem(mPager, position);
             currentFragment.fragmentIndex = position;
             currentFragment.handler.postDelayed(currentFragment.runnable, currentFragment.interval);
+            if (mPlayer != null) {
 
-
-            int resId = getResources().getIdentifier("audio"+(position+1), "raw", getPackageName());
-
-            String fileName = "android.resource://" + getPackageName() + "/" + resId;
-            try {
-                if(mPlayer != null) {
-                    if (mPlayer.isPlaying()) {
-                        mPlayer.stop();
-                        mPlayer.reset();
-                    }
-                    mPlayer.setDataSource(DetailsActivity.this, Uri.parse(fileName));
-                    mPlayer.prepare();
-                    mPlayer.start();
-                }
-            }catch (Exception e) {
-                //Toast.makeText(DetailsActivity.this, "ERROR: audio player not working.", Toast.LENGTH_LONG).show();
-                System.out.println( "ERROR: audio player not working.");
+                mPlayer.stop();
+                mPlayer.reset();
             }
 
+            int resId = getResources().getIdentifier("audio" + (position + 1), "raw", getPackageName());
+
+            String fileName = "android.resource://" + getPackageName() + "/" + resId;
+
+                if (mPlayer != null) {
+                    try {
+                        mPlayer.setDataSource(DetailsActivity.this, Uri.parse(fileName));
+                    } catch (Exception e) {
+                        System.out.println("setDataSource for Audio Player ERROR");
+                    }
+                    mPlayer.prepareAsync();
+                    mPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                        public void onPrepared(MediaPlayer mp) {
+                            mp.start();
+                        }
+                    });
+
+                    mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                        @Override
+                        public void onCompletion(MediaPlayer mp) {
+                            //toggle button state
+                        }
+                    });
+
+                //Toast.makeText(DetailsActivity.this, "ERROR: audio player not working.", Toast.LENGTH_LONG).show();
+                System.out.println("ERROR: audio player not working.");
+            }
         }
+
 
         @Override
         public void onPageScrollStateChanged(int state)

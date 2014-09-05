@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
+import android.media.ThumbnailUtils;
 import android.os.Build;
 import android.view.Display;
 import android.view.View;
@@ -48,13 +49,16 @@ public class ImageAdapter extends BaseAdapter {
         for(int i = 0; i < mThumbIds.length; i++) {
             Integer resourceId = mThumbIds[i][0];
 
-            bitmapArray.add(decodeSampledBitmapFromResource(mContext.getResources(), resourceId, 250, 250));
-
+            bitmapArray.add(decodeSampledBitmapFromResource(mContext.getResources(), resourceId, 270, 270));
         }
+
+        //special thumbnail
+        bitmapArray.add(decodeSampledBitmapFromResource(mContext.getResources(), R.drawable.full1a, 270, 270));
+
     }
 
     public int getCount() {
-        return mThumbIds.length;
+        return mThumbIds.length+1;
     }
 
     public Object getItem(int position) {
@@ -93,20 +97,11 @@ public class ImageAdapter extends BaseAdapter {
     public Bitmap decodeSampledBitmapFromResource(Resources res,
                                                          int resId, int reqWidth, int reqHeight) {
 
-        // First decode with inJustDecodeBounds=true to check dimensions
-        final BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeResource(res, resId, options);
+        Bitmap bitMap = BitmapFactory.decodeResource(res, resId);
 
-        // Calculate inSampleSize
-        options.inSampleSize = calculateInSampleSize(options, reqWidth,
-                reqHeight);
+        bitMap = ThumbnailUtils.extractThumbnail(bitMap, reqWidth, reqHeight);
 
-        // Decode bitmap with inSampleSize set
-        options.inJustDecodeBounds = false;
-
-
-        return BitmapFactory.decodeResource(res, resId, options);
+        return bitMap;
     }
 
 
@@ -119,7 +114,7 @@ public class ImageAdapter extends BaseAdapter {
             float width = size[0];
             imageView.setLayoutParams(new GridView.LayoutParams((int)((width/4.2)), (int)(width/4.2)));
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            imageView.setPadding(10, 10, 10, 10);
+            imageView.setPadding(4, 4, 4, 4);
         } else {
             imageView = (ImageView) convertView;
         }
