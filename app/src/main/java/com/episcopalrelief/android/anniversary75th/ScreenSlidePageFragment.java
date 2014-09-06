@@ -65,7 +65,7 @@ public class ScreenSlidePageFragment extends Fragment {
             {R.drawable.full21a}
     };
 
-
+    public Integer mainImage;
 
     public static final String ARG_PAGE = "page";
     public ImageView imageView;
@@ -204,6 +204,7 @@ public class ScreenSlidePageFragment extends Fragment {
         parentActivity = this.getActivity();
         imageView = (ImageView) rootView.findViewById(R.id.detailsImage);
         int resId = getResources().getIdentifier("full"+(mPageNumber+1) +"a", "drawable", this.getActivity().getPackageName());
+        mainImage = resId;
         imageView.setImageResource(resId);
 
         //DO IMAGE ROTATION IF required

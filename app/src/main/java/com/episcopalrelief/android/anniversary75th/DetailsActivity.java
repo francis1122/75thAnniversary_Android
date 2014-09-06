@@ -16,6 +16,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ShareActionProvider;
 import android.widget.Toast;
 
 import java.util.List;
@@ -28,6 +29,8 @@ public class DetailsActivity extends FragmentActivity {
     ScreenSlidePagerAdapter mAdapter;
     MediaPlayer mPlayer;
     ScreenSlidePageFragment currentFragment = null;
+    DetailsActivity currentActivity = this;
+    private ShareActionProvider mShareActionProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,9 +85,38 @@ public class DetailsActivity extends FragmentActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+        // Inflate menu resource file.
         getMenuInflater().inflate(R.menu.details, menu);
+
+        // Locate MenuItem with ShareActionProvider
+        MenuItem item = menu.findItem(R.id.menu_item_share);
+
+        // Fetch and store ShareActionProvider
+        mShareActionProvider = (ShareActionProvider) item.getActionProvider();
+
+
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, "Enjoying the 75th Anniversary Celebration Photo Exhibition. #allhands75 https://www.facebook.com/EpiscopalRelief");
+        sendIntent.setType("image/*");
+        //File f = new File("android.resource://com.episcopalrelief.android.anniversary75th/" + R.drawable.full10a);
+        Uri u = Uri.parse("android.resource://com.episcopalrelief.android.anniversary75th/" + R.drawable.full20a);
+        //sendIntent.setData(u);
+        sendIntent.putExtra(Intent.EXTRA_STREAM, u);
+        sendIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+
+        this.setShareIntent(sendIntent);
+
+        // Return true to display menu
         return true;
+    }
+
+    // Call to update the share intent
+    private void setShareIntent(Intent shareIntent) {
+        if (mShareActionProvider != null) {
+            mShareActionProvider.setShareIntent(shareIntent);
+        }
     }
 
     @Override
@@ -93,9 +125,7 @@ public class DetailsActivity extends FragmentActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -127,8 +157,6 @@ public class DetailsActivity extends FragmentActivity {
 
             return ScreenSlidePageFragment.create(position);
         }
-
-
     }
 
     public class DetailsOnPageChangeListener implements ViewPager.OnPageChangeListener {
@@ -145,7 +173,7 @@ public class DetailsActivity extends FragmentActivity {
             currentFragment.fragmentIndex = position;
             currentFragment.handler.postDelayed(currentFragment.runnable, currentFragment.interval);
 
-
+            //audio
             int resId = getResources().getIdentifier("audio"+(position+1), "raw", getPackageName());
 
             String fileName = "android.resource://" + getPackageName() + "/" + resId;
@@ -158,6 +186,21 @@ public class DetailsActivity extends FragmentActivity {
             }catch (Exception e) {
                 Toast.makeText(DetailsActivity.this, "ERROR: audio player not working.", Toast.LENGTH_LONG).show();
             }
+
+            //sharing
+
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, "Enjoying the 75th Anniversary Celebration Photo Exhibition. #allhands75 https://www.facebook.com/EpiscopalRelief");
+            sendIntent.setType("image/*");
+            //File f = new File("android.resource://com.episcopalrelief.android.anniversary75th/" + R.drawable.full10a);
+            Uri u = Uri.parse("android.resource://com.episcopalrelief.android.anniversary75th/" + currentFragment.mainImage);
+            //sendIntent.setData(u);
+            sendIntent.putExtra(Intent.EXTRA_STREAM, u);
+            sendIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+
+            currentActivity.setShareIntent(sendIntent);
 
         }
 
