@@ -83,7 +83,7 @@ public class ScreenSlidePageFragment extends Fragment {
                 if(pictureIndex == arrayLength){
                     pictureIndex = 0;
                 }
-                Bitmap bitmapImage = decodeSampledBitmapFromResource(parentActivity.getApplicationContext().getResources(), mThumbIds[fragmentIndex][pictureIndex], 250, 250);
+                Bitmap bitmapImage = decodeSampledBitmapFromResource(parentActivity.getApplicationContext().getResources(), mThumbIds[fragmentIndex][pictureIndex], 500, 500);
                 ImageViewAnimatedChange(parentActivity.getApplicationContext(), imageView, bitmapImage);
 //                imageView.setImageBitmap(bitmapImage);
 
@@ -205,6 +205,9 @@ public class ScreenSlidePageFragment extends Fragment {
         imageView = (ImageView) rootView.findViewById(R.id.detailsImage);
         int resId = getResources().getIdentifier("full"+(mPageNumber+1) +"a", "drawable", this.getActivity().getPackageName());
         mainImage = resId;
+
+  //      Bitmap bitmapImage = decodeSampledBitmapFromResource(parentActivity.getApplicationContext().getResources(), mThumbIds[fragmentIndex][pictureIndex], 500, 500);
+//        imageView.setImageBitmap(bitmapImage);
         imageView.setImageResource(resId);
 
         //DO IMAGE ROTATION IF required
