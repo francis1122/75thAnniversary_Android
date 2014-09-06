@@ -174,8 +174,7 @@ public class DetailsActivity extends FragmentActivity {
 
     public class DetailsOnPageChangeListener implements ViewPager.OnPageChangeListener {
         @Override
-        public void onPageSelected(int position)
-        {
+        public void onPageSelected(int position) {
             System.out.println("onPageSelected" + position);
 
             // mPager
@@ -187,10 +186,35 @@ public class DetailsActivity extends FragmentActivity {
             currentFragment.handler.postDelayed(currentFragment.runnable, currentFragment.interval);
             if (mPlayer != null) {
 
+<<<<<<< HEAD
+            //audio
+            int resId = getResources().getIdentifier("audio"+(position+1), "raw", getPackageName());
+
+            String fileName = "android.resource://" + getPackageName() + "/" + resId;
+            try {
+=======
+>>>>>>> 9bd9b872445a5d5fad1825faabf144edeb150992
                 mPlayer.stop();
                 mPlayer.reset();
             }
 
+<<<<<<< HEAD
+            //sharing
+
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, "Enjoying the 75th Anniversary Celebration Photo Exhibition. #allhands75 https://www.facebook.com/EpiscopalRelief");
+            sendIntent.setType("image/*");
+            //File f = new File("android.resource://com.episcopalrelief.android.anniversary75th/" + R.drawable.full10a);
+            Uri u = Uri.parse("android.resource://com.episcopalrelief.android.anniversary75th/" + currentFragment.mainImage);
+            //sendIntent.setData(u);
+            sendIntent.putExtra(Intent.EXTRA_STREAM, u);
+            sendIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+
+            currentActivity.setShareIntent(sendIntent);
+
+=======
             int resId = getResources().getIdentifier("audio" + (position + 1), "raw", getPackageName());
 
             String fileName = "android.resource://" + getPackageName() + "/" + resId;
@@ -208,8 +232,19 @@ public class DetailsActivity extends FragmentActivity {
                         }
                     });
 
-                }
+                    mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                        @Override
+                        public void onCompletion(MediaPlayer mp) {
+                            //toggle button state
+                        }
+                    });
+
+                //Toast.makeText(DetailsActivity.this, "ERROR: audio player not working.", Toast.LENGTH_LONG).show();
+                System.out.println("ERROR: audio player not working.");
+            }
+>>>>>>> 9bd9b872445a5d5fad1825faabf144edeb150992
         }
+
 
         @Override
         public void onPageScrollStateChanged(int state)

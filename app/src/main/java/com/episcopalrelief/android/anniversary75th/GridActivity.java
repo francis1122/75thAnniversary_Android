@@ -31,9 +31,16 @@ public class GridActivity extends Activity {
         gridview.setAdapter(new ImageAdapter(this));
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                Intent myIntent = new Intent(GridActivity.this, DetailsActivity.class);
-                myIntent.putExtra("index", position);
-                GridActivity.this.startActivity(myIntent);
+
+                if(position == 21){
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.episcopalrelief.org"));
+                    startActivity(browserIntent);
+                }else {
+
+                    Intent myIntent = new Intent(GridActivity.this, DetailsActivity.class);
+                    myIntent.putExtra("index", position);
+                    GridActivity.this.startActivity(myIntent);
+                }
 
 
                 //Toast.makeText(GridActivity.this, "" + position, Toast.LENGTH_SHORT).show();
