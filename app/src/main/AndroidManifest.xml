@@ -21,7 +21,7 @@
             android:name=".DetailsActivity"
             android:screenOrientation="landscape"
             android:label="Gallery Tour">
+        <!-- Parent activity meta-data to support 4.0 and lower -->
         </activity>
     </application>
-
 </manifest>

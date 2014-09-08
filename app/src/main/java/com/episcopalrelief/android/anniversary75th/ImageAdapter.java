@@ -40,7 +40,6 @@ public class ImageAdapter extends BaseAdapter {
     };
 
 
-
     private ArrayList<Bitmap> bitmapArray = new ArrayList<Bitmap>();
 
 

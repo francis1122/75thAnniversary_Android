@@ -36,6 +36,7 @@ public class DetailsActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
         Intent intent = getIntent();
         int value = intent.getIntExtra("index", -1);
 
@@ -74,7 +75,7 @@ public class DetailsActivity extends FragmentActivity {
             }
         });
 
-        mPlayer.start();
+      //  mPlayer.start();
 
 
         /*
@@ -138,7 +139,12 @@ public class DetailsActivity extends FragmentActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -146,7 +152,6 @@ public class DetailsActivity extends FragmentActivity {
     protected void onPause() {
         super.onPause();
         if (mPlayer != null){
-            mPlayer.stop();
             if (isFinishing()){
                 mPlayer.stop();
             }
@@ -204,7 +209,7 @@ public class DetailsActivity extends FragmentActivity {
                     mPlayer.prepareAsync();
                     mPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                         public void onPrepared(MediaPlayer mp) {
-                            mp.start();
+                    //        mp.start();
                         }
                     });
 
