@@ -6,25 +6,41 @@ import android.app.FragmentManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.gesture.Gesture;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Debug;
 import android.support.v13.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
+import android.support.v4.view.GestureDetectorCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
+import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewConfiguration;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.ShareActionProvider;
 import android.widget.Toast;
 
 import java.util.List;
 
-public class DetailsActivity extends FragmentActivity {
+import static android.view.GestureDetector.SimpleOnGestureListener;
 
-//    ImageView imageView;
-
+public class DetailsActivity extends FragmentActivity
+{
+    ImageView mPlayImage;
     ViewPager mPager;
     ScreenSlidePagerAdapter mAdapter;
     MediaPlayer mPlayer;
@@ -37,8 +53,14 @@ public class DetailsActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
         getActionBar().setDisplayHomeAsUpEnabled(true);
+        mPlayImage = (ImageView) findViewById(R.id.playImage);
+        mPlayImage.setBackgroundColor(Color.rgb(100, 100, 100));
+        //mPlayImage.setImageResource(R.drawable.ic_action_pause);
+        ImageViewAnimatedChange(this.getBaseContext(), mPlayImage, R.drawable.ic_action_pause);
         Intent intent = getIntent();
         int value = intent.getIntExtra("index", -1);
+
+
 
         /*Intent intent = getIntent();
         int value = intent.getIntExtra("index", -1)+1;
@@ -58,8 +80,6 @@ public class DetailsActivity extends FragmentActivity {
         mPlayer = new MediaPlayer();
 
 
-
-
         int resId = getResources().getIdentifier("audio"+(value+1), "raw", getPackageName());
         String fileName = "android.resource://" + getPackageName() + "/" + resId;
         try{
@@ -75,8 +95,40 @@ public class DetailsActivity extends FragmentActivity {
             }
         });
 
-      //  mPlayer.start();
+        mPlayer.start();
 
+
+        mPager.setOnTouchListener(new ViewPager.OnTouchListener() {
+            private float pointX;
+            private float pointY;
+            private int tolerance = 50;
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch(event.getAction()){
+                    case MotionEvent.ACTION_MOVE:
+                        return false; //This is important, if you return TRUE the action of swipe will not take place.
+                    case MotionEvent.ACTION_DOWN:
+                        pointX = event.getX();
+                        pointY = event.getY();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        boolean sameX = pointX + tolerance > event.getX() && pointX - tolerance < event.getX();
+                        boolean sameY = pointY + tolerance > event.getY() && pointY - tolerance < event.getY();
+                        if(sameX && sameY){
+                            if(mPlayer.isPlaying()){
+                                mPlayer.pause();
+                                ImageViewAnimatedChange(currentActivity.getBaseContext(), mPlayImage, R.drawable.ic_action_pause);
+                            }else{
+                                mPlayer.start();
+                                ImageViewAnimatedChange(currentActivity.getBaseContext(), mPlayImage, R.drawable.ic_action_play);
+                            }
+
+                            //The user "clicked" certain point in the screen or just returned to the same position an raised the finger
+                        }
+                }
+                return false;
+            }
+        });
 
         /*
         // Watch for button clicks.
@@ -95,7 +147,6 @@ public class DetailsActivity extends FragmentActivity {
         */
         //imageView.setImageResource(R.drawable.sample_4);j
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -159,6 +210,23 @@ public class DetailsActivity extends FragmentActivity {
     }
 
 
+    public static void ImageViewAnimatedChange(Context c, final ImageView v, final int imageID) {
+        v.setAlpha(1.0f);
+        final Animation anim_out = AnimationUtils.loadAnimation(c, android.R.anim.fade_out);
+        v.setImageResource(imageID);
+
+        anim_out.setAnimationListener(new Animation.AnimationListener()
+        {
+            @Override public void onAnimationStart(Animation animation) {}
+            @Override public void onAnimationRepeat(Animation animation) {}
+            @Override public void onAnimationEnd(Animation animation)
+            {
+                v.setAlpha(0.0f);
+            }
+        });
+
+        v.startAnimation(anim_out);
+    }
 
     public static class ScreenSlidePagerAdapter extends android.support.v13.app.FragmentStatePagerAdapter {
         public ScreenSlidePagerAdapter(FragmentManager fm) {
@@ -209,7 +277,7 @@ public class DetailsActivity extends FragmentActivity {
                     mPlayer.prepareAsync();
                     mPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                         public void onPrepared(MediaPlayer mp) {
-                    //        mp.start();
+                            mp.start();
                         }
                     });
 
@@ -230,7 +298,8 @@ public class DetailsActivity extends FragmentActivity {
         }
 
     }
-
-
-
 }
+
+
+
+

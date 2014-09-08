@@ -94,7 +94,7 @@ public class ScreenSlidePageFragment extends Fragment {
 
     long startTime = 0;
 
-    public final int interval = 2000; // 1 Second
+    public final int interval = 5000; // 1 Second
 
 
     /**
@@ -209,6 +209,7 @@ public class ScreenSlidePageFragment extends Fragment {
   //      Bitmap bitmapImage = decodeSampledBitmapFromResource(parentActivity.getApplicationContext().getResources(), mThumbIds[fragmentIndex][pictureIndex], 500, 500);
 //        imageView.setImageBitmap(bitmapImage);
         imageView.setImageResource(resId);
+
 
         //DO IMAGE ROTATION IF required
         //handler.postAtTime(runnable, System.currentTimeMillis()+interval);
