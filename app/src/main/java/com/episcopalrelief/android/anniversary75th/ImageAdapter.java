@@ -49,11 +49,11 @@ public class ImageAdapter extends BaseAdapter {
         for(int i = 0; i < mThumbIds.length; i++) {
             Integer resourceId = mThumbIds[i][0];
 
-            bitmapArray.add(decodeSampledBitmapFromResource(mContext.getResources(), resourceId, 270, 270));
+            bitmapArray.add(decodeSampledBitmapFromResource(mContext.getResources(), resourceId, 250, 250));
         }
 
         //special thumbnail
-        bitmapArray.add(decodeSampledBitmapFromResource(mContext.getResources(), R.drawable.full1a, 270, 270));
+        bitmapArray.add(decodeSampledBitmapFromResource(mContext.getResources(), R.drawable.full1a, 250, 250));
 
     }
 
