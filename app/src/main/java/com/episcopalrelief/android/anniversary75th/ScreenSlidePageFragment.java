@@ -96,7 +96,7 @@ public class ScreenSlidePageFragment extends Fragment {
 
     long startTime = 0;
 
-    public final int interval = 5000; // 1 Second
+    public final int interval = 8000; // 8 Second
 
 
     /**
