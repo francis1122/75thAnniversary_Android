@@ -54,7 +54,7 @@ public class ImageAdapter extends BaseAdapter {
         }
 
         //special thumbnail
-        bitmapArray.add(makeBitmapForSpecialThumb(mContext.getResources(), R.drawable.special_thumb, 250, 250));
+        bitmapArray.add(makeBitmapForSpecialThumb(mContext.getResources(), R.drawable.special_thumb, 500, 500));
 
     }
 
@@ -121,7 +121,11 @@ public class ImageAdapter extends BaseAdapter {
             int size[] = getScreenSize();
             float width = size[0];
             imageView.setLayoutParams(new GridView.LayoutParams((int)((width/4.2)), (int)(width/4.2)));
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            if(22 == position){
+                imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+            }else {
+                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            }
             imageView.setPadding(4, 4, 4, 4);
         } else {
             imageView = (ImageView) convertView;
