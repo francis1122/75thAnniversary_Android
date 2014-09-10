@@ -203,6 +203,7 @@ public class DetailsActivity extends FragmentActivity
     protected void onPause() {
         super.onPause();
         if (mPlayer != null){
+            mPlayer.stop();
             if (isFinishing()){
                 mPlayer.stop();
             }
