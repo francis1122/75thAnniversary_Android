@@ -80,7 +80,7 @@ public class DetailsActivity extends FragmentActivity
         mPlayer = new MediaPlayer();
 
 
-        int resId = getResources().getIdentifier("audio"+(value+1), "raw", getPackageName());
+        int resId = getResources().getIdentifier("audio"+(value), "raw", getPackageName());
         String fileName = "android.resource://" + getPackageName() + "/" + resId;
         try{
           mPlayer.setDataSource(DetailsActivity.this, Uri.parse(fileName));
@@ -265,7 +265,7 @@ public class DetailsActivity extends FragmentActivity
                 mPlayer.reset();
             }
 
-            int resId = getResources().getIdentifier("audio" + (position + 1), "raw", getPackageName());
+            int resId = getResources().getIdentifier("audio" + (position), "raw", getPackageName());
 
             String fileName = "android.resource://" + getPackageName() + "/" + resId;
 

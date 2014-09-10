@@ -52,6 +52,7 @@ public class ScreenSlidePageFragment extends Fragment {
     private int pictureIndex = 0;
     // references to our images
     private Integer[][] mThumbIds = {
+            {R.drawable.full0a},
             {R.drawable.full1a}, {R.drawable.full2a},
             {R.drawable.full3a}, {R.drawable.full4a},
             {R.drawable.full5a}, {R.drawable.full6a},
