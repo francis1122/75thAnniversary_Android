@@ -32,7 +32,7 @@ public class GridActivity extends Activity {
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 
-                if(position == 21){
+                if(position == 22){
                     Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.episcopalrelief.org"));
                     startActivity(browserIntent);
                 }else {

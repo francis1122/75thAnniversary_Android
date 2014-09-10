@@ -1,25 +1,39 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias '75thAnniversary_Key'
+            keyPassword '3piscopalr3li3f'
+            storeFile file('/Users/joshuascorca/Desktop/75thAnniversary.jks')
+            storePassword '3piscopalr3li3f'
+        }
+    }
     compileSdkVersion 20
-    buildToolsVersion "20.0.0"
-
+    buildToolsVersion '20.0.0'
     defaultConfig {
-        applicationId "com.episcopalrelief.android.anniversary75th"
+        applicationId 'com.episcopalrelief.android.anniversary75th'
         minSdkVersion 14
         targetSdkVersion 20
         versionCode 1
-        versionName "1.0"
+        versionName '1.0'
     }
     buildTypes {
         release {
             runProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
+        debug {
+            debuggable true
+            jniDebugBuild false
+        }
+    }
+    productFlavors {
     }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile "com.android.support:support-v13:18.0.+"
+    compile 'com.android.support:support-v13:18.0.+'
 }

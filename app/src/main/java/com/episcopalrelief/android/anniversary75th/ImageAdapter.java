@@ -27,7 +27,7 @@ public class ImageAdapter extends BaseAdapter {
     // references to our images
     private Integer[][] mThumbIds = {
             {R.drawable.full1a}, {R.drawable.full2a},
-            {R.drawable.full3a, R.drawable.full3b}, {R.drawable.full4a},
+            {R.drawable.full3a}, {R.drawable.full4a},
             {R.drawable.full5a}, {R.drawable.full6a},
             {R.drawable.full7a, R.drawable.full7b, R.drawable.full7c, R.drawable.full7d, R.drawable.full7e}, {R.drawable.full8a},
             {R.drawable.full9a, R.drawable.full9b, R.drawable.full9d, R.drawable.full9e, R.drawable.full9f, R.drawable.full9g}, {R.drawable.full10a},
@@ -36,7 +36,7 @@ public class ImageAdapter extends BaseAdapter {
             {R.drawable.full15a}, {R.drawable.full16a},
             {R.drawable.full17a}, {R.drawable.full18a},
             {R.drawable.full19a}, {R.drawable.full20a},
-            {R.drawable.full21a}
+            {R.drawable.full21a}, {R.drawable.full22a}
     };
 
 
@@ -52,7 +52,7 @@ public class ImageAdapter extends BaseAdapter {
         }
 
         //special thumbnail
-        bitmapArray.add(decodeSampledBitmapFromResource(mContext.getResources(), R.drawable.full1a, 250, 250));
+        bitmapArray.add(makeBitmapForSpecialThumb(mContext.getResources(), R.drawable.special_thumb, 250, 250));
 
     }
 
@@ -99,6 +99,13 @@ public class ImageAdapter extends BaseAdapter {
         Bitmap bitMap = BitmapFactory.decodeResource(res, resId);
 
         bitMap = ThumbnailUtils.extractThumbnail(bitMap, reqWidth, reqHeight);
+
+        return bitMap;
+    }
+
+    public Bitmap makeBitmapForSpecialThumb(Resources res,
+                                            int resId, int reqWidth, int reqHeight){
+        Bitmap bitMap = BitmapFactory.decodeResource(res, resId);
 
         return bitMap;
     }
