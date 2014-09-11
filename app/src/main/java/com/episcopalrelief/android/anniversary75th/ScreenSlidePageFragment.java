@@ -47,8 +47,10 @@ public class ScreenSlidePageFragment extends Fragment {
      * The argument key for the page number this fragment represents.
      */
 
+    //current slide left and right
     public int fragmentIndex = -1;
 
+    //fading between images inside of a fragment
     private int pictureIndex = 0;
     // references to our images
     private Integer[][] mThumbIds = {
@@ -206,7 +208,7 @@ public class ScreenSlidePageFragment extends Fragment {
         // Set the title view to show the page number.
         parentActivity = this.getActivity();
         imageView = (ImageView) rootView.findViewById(R.id.detailsImage);
-        int resId = getResources().getIdentifier("full"+(mPageNumber+1) +"a", "drawable", this.getActivity().getPackageName());
+        int resId = getResources().getIdentifier("full"+(mPageNumber) +"a", "drawable", this.getActivity().getPackageName());
         mainImage = resId;
 
   //      Bitmap bitmapImage = decodeSampledBitmapFromResource(parentActivity.getApplicationContext().getResources(), mThumbIds[fragmentIndex][pictureIndex], 500, 500);

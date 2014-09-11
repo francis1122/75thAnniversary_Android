@@ -122,7 +122,7 @@ public class ImageAdapter extends BaseAdapter {
             int size[] = getScreenSize();
             float width = size[0];
             imageView.setLayoutParams(new GridView.LayoutParams((int)((width/4.2)), (int)(width/4.2)));
-            if(22 == position){
+            if(23 == position){
                 imageView.setScaleType(ImageView.ScaleType.FIT_XY);
             }else {
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);

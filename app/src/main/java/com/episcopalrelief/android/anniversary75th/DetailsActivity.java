@@ -60,8 +60,6 @@ public class DetailsActivity extends FragmentActivity
         Intent intent = getIntent();
         int value = intent.getIntExtra("index", -1);
 
-
-
         /*Intent intent = getIntent();
         int value = intent.getIntExtra("index", -1)+1;
         Toast.makeText(DetailsActivity.this, "" + value , Toast.LENGTH_SHORT).show();
@@ -78,7 +76,6 @@ public class DetailsActivity extends FragmentActivity
         mPager.setOnPageChangeListener(new DetailsOnPageChangeListener());
         mPager.setCurrentItem(value);
         mPlayer = new MediaPlayer();
-
 
         int resId = getResources().getIdentifier("audio"+(value), "raw", getPackageName());
         String fileName = "android.resource://" + getPackageName() + "/" + resId;
@@ -236,7 +233,7 @@ public class DetailsActivity extends FragmentActivity
 
         @Override
         public int getCount() {
-            return 22;
+            return 23;
         }
 
         @Override
