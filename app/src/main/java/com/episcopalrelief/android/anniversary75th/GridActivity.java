@@ -2,13 +2,17 @@ package com.episcopalrelief.android.anniversary75th;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Point;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ShareActionProvider;
@@ -20,14 +24,37 @@ import java.io.File;
 public class GridActivity extends Activity {
 
     private ShareActionProvider mShareActionProvider;
+    private Context mContext;
 
+    public int[] getScreenSize(){
+        Point size = new Point();
+        WindowManager w = (WindowManager) mContext
+                .getSystemService(Context.WINDOW_SERVICE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2){
+            w.getDefaultDisplay().getSize(size);
+            return new int[]{size.x, size.y};
+        }
+        return new int[]{500, 500};
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grid);
+        mContext = getApplicationContext();
+
+        android.app.ActionBar bar = getActionBar();
+        if(bar != null){
+            bar.hide();
+        }
         getActionBar().show();
         GridView gridview = (GridView) findViewById(R.id.gridview);
+        int size[] = getScreenSize();
+        float width = size[0];
+        gridview.setColumnWidth((int)(width/4.2));
+
+
         gridview.setAdapter(new ImageAdapter(this));
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {

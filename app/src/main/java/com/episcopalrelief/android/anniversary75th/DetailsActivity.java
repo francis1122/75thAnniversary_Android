@@ -53,6 +53,7 @@ public class DetailsActivity extends FragmentActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
         getActionBar().setDisplayHomeAsUpEnabled(true);
+
         mPlayImage = (ImageView) findViewById(R.id.playImage);
         mPlayImage.setBackgroundColor(Color.rgb(100, 100, 100));
         //mPlayImage.setImageResource(R.drawable.ic_action_pause);
@@ -89,10 +90,22 @@ public class DetailsActivity extends FragmentActivity
         mPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             public void onPrepared(MediaPlayer mp) {
                 mp.start();
+           //     System.out.println("Details: onCreate One");
             }
         });
 
+        mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                //mp.release();
+            }
+
+        });
+
+
         mPlayer.start();
+        System.out.println("Details: onCreate");
 
 
         mPager.setOnTouchListener(new ViewPager.OnTouchListener() {
@@ -199,6 +212,7 @@ public class DetailsActivity extends FragmentActivity
     @Override
     protected void onPause() {
         super.onPause();
+        //System.out.println("Details: onPause");
         if (mPlayer != null){
             mPlayer.stop();
             if (isFinishing()){
@@ -275,6 +289,7 @@ public class DetailsActivity extends FragmentActivity
                     mPlayer.prepareAsync();
                     mPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                         public void onPrepared(MediaPlayer mp) {
+                            //System.out.println("Details: onPrepared");
                             mp.start();
                         }
                     });

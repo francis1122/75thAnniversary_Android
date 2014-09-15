@@ -7,13 +7,18 @@ import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.media.ThumbnailUtils;
 import android.os.Build;
+import android.os.Debug;
+import android.util.Log;
+import android.util.TypedValue;
 import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 
 import java.util.ArrayList;
@@ -48,14 +53,17 @@ public class ImageAdapter extends BaseAdapter {
 
     public ImageAdapter(Context c) {
         mContext = c;
+        Resources r = Resources.getSystem();
+        int px = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200, r.getDisplayMetrics());
         for(int i = 0; i < mThumbIds.length; i++) {
             Integer resourceId = mThumbIds[i][0];
 
-            bitmapArray.add(decodeSampledBitmapFromResource(mContext.getResources(), resourceId, 250, 250));
+
+            bitmapArray.add(decodeSampledBitmapFromResource(mContext.getResources(), resourceId, px, px));
         }
 
         //special thumbnail
-        bitmapArray.add(makeBitmapForSpecialThumb(mContext.getResources(), R.drawable.special_thumb, 500, 500));
+        bitmapArray.add(makeBitmapForSpecialThumb(mContext.getResources(), R.drawable.special_thumb, 360, 216));
 
     }
 
@@ -118,10 +126,34 @@ public class ImageAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ImageView imageView;
         if (convertView == null) {  // if it's not recycled, initialize some attributes
-            imageView = new ImageView(mContext);
+            //imageView = new ImageView(mContext);
+
+
+            //Calculation of ImageView Size - density independent.
+            //maybe you should do this calculation not exactly in this method but put is somewhere else.
+            Resources r = Resources.getSystem();
             int size[] = getScreenSize();
             float width = size[0];
-            imageView.setLayoutParams(new GridView.LayoutParams((int)((width/4.2)), (int)(width/4.2)));
+            //
+            //float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, (int)((width/4.3)), r.getDisplayMetrics());
+
+            //Log.v("a", "test " + px);
+            //Log.v("b", "width " + width);
+            imageView = new ImageView(mContext);
+            //ViewGroup.LayoutParams params = new ViewGroup.LayoutParams()
+            //LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams., LinearLayout.LayoutParams.FILL_PARENT);
+
+            imageView.setAdjustViewBounds(true);
+
+            imageView.setLayoutParams(new GridView.LayoutParams((int)((width/4.2)), (int)((width/4.2))));
+
+
+            //parent.setLayoutParams();
+
+            //imageView.setLayoutParams(new GridView.LayoutParams((int)px, (int)px));
+
+
+
             if(23 == position){
                 imageView.setScaleType(ImageView.ScaleType.FIT_XY);
             }else {
@@ -148,10 +180,7 @@ public class ImageAdapter extends BaseAdapter {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2){
             w.getDefaultDisplay().getSize(size);
             return new int[]{size.x, size.y};
-        }else{
-            Display d = w.getDefaultDisplay();
-            //noinspection deprecation
-            return new int[]{d.getWidth(), d.getHeight()};
         }
+        return new int[]{500, 500};
     }
 }

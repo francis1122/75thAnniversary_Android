@@ -11,26 +11,17 @@ public class SplashScreenActivity extends Activity {
 
     private static final int SPLASH_SHOW_TIME = 2000;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
-        getActionBar().hide();
-        setContentView(R.layout.activity_splash_screen);
-
-        new BackgroundSplashTask().execute();
-
-    }
 
     /**
      * Async Task: can be used to load DB, images during which the splash screen
      * is shown to user
      */
-    private class BackgroundSplashTask extends AsyncTask{
+
+    private class BackgroundSplashTask<Object, Activity, Result>  extends AsyncTask<Object, Activity, Result>{
 
 
         @Override
-        protected Object doInBackground(Object[] objects) {
+        protected Result doInBackground(Object... paramses){
 
             // I have just given a sleep for this thread
             // if you want to load database, make
@@ -49,15 +40,17 @@ public class SplashScreenActivity extends Activity {
             return null;
         }
 
+
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
         }
 
         @Override
-        protected void onPostExecute(Object v){
+        protected void onPostExecute(Result result){
             //  showDialog("Downloaded " + result + " bytes");
-            super.onPostExecute(v);
+            super.onPostExecute(result);
             Intent i = new Intent(SplashScreenActivity.this,
                     GridActivity.class);
             // any info loaded can during splash_show
@@ -68,4 +61,22 @@ public class SplashScreenActivity extends Activity {
             finish();
         }
     }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
+        //if()
+        android.app.ActionBar bar = getActionBar();
+        if(bar != null){
+            bar.hide();
+        }
+        setContentView(R.layout.activity_splash_screen);
+        BackgroundSplashTask<Object, Activity, Result> task = new BackgroundSplashTask<Object, Activity, Result>();
+
+        task.execute();
+
+    }
+
+
 }
